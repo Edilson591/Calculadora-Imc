@@ -62,7 +62,7 @@ function App() {
     handleBorder(imcValue);
   };
   return (
-    <div className="h-screen flex items-center p-[5.6vw] flex-col gap-4 bg-neutral-300">
+    <div className="min-h-screen flex items-center p-[5.6vw] flex-col gap-4 bg-neutral-300">
       <div className="p-6 flex flex-col items-center max-w-md w-full bg-zinc-400 rounded-lg">
         <header>
           <h1 className="text-3xl font-bold mb-4">Calculadora IMC</h1>
