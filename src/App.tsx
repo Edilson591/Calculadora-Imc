@@ -3,19 +3,12 @@ import "./App.css";
 import { useState } from "react";
 import { dadosIMC } from "./hooks/dadosTable";
 
-interface DadosIMC {
-  id: number;
-  categoria: string;
-  imc?: string | null;
-  limites?: number | undefined;
-}
 
 function App() {
   const [peso, setPeso] = useState<number>(0);
   const [altura, setAltura] = useState<number>(0);
   const [imc, setImc] = useState<number | null>(null);
-  const [IndiceCorpo, setIsBorder] = useState<string | undefined>("");
-  const [limite, setLimite] = useState<DadosIMC[]>(dadosIMC);
+  const [IndiceCorpo, setIndiceCorpo] = useState<string | undefined>("");
 
   const handlePeso = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPeso(parseFloat(e.target.value));
@@ -30,37 +23,18 @@ function App() {
     return peso / Math.pow(altura, 2);
   };
 
-  const handleBorder = (value: number) => {
-    const findDados = limite.find((item) => {
-      if (item.limites === undefined) return;
-      if (item.limites === 0) return Infinity;
+  const handleIndiceCorpo = (value: number) => {
+    const findDados = dadosIMC.find((item) => {  
       return value <= item.limites;
     });
-    setIsBorder(findDados?.categoria);
-    console.log(IndiceCorpo)
+    setIndiceCorpo(findDados?.categoria);
   };
 
   const handleImc = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const imcValue = calcularImc();
     setImc(imcValue);
-    setLimite((prev: DadosIMC[]) => {
-      return prev.map((item) => {
-        if (item.imc) {
-          const value = Object.values(item.imc)
-            .filter((value) => !isNaN(Number(value)) && value !== "")
-            .slice(-4)
-            .map(Number);
-
-          const limites = value.reduce((acc, curr) => acc * 10 + curr, 0) / 10;
-
-          return { ...item, limites };
-        } else {
-          return { ...item, limites: Infinity };
-        }
-      });
-    });
-    handleBorder(imcValue);
+    handleIndiceCorpo(imcValue);
   };
   return (
     <div className="min-h-screen flex items-center p-[5.6vw] flex-col gap-4 bg-neutral-300">
