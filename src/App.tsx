@@ -14,7 +14,7 @@ function App() {
   const [peso, setPeso] = useState<number>(0);
   const [altura, setAltura] = useState<number>(0);
   const [imc, setImc] = useState<number | null>(null);
-  const [isborder, setIsBorder] = useState<string | undefined>("");
+  const [IndiceCorpo, setIsBorder] = useState<string | undefined>("");
   const [limite, setLimite] = useState<DadosIMC[]>(dadosIMC);
 
   const handlePeso = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +37,7 @@ function App() {
       return value <= item.limites;
     });
     setIsBorder(findDados?.categoria);
+    console.log(IndiceCorpo)
   };
 
   const handleImc = (event: React.FormEvent<HTMLFormElement>) => {
@@ -98,7 +99,10 @@ function App() {
       </div>
       {imc !== null && (
         <div className="mt-4 text-2xl font-bold flex flex-col items-center gap-2">
-          Seu IMC é de {imc.toFixed(2)}
+         <div className="p-6 bg-zinc-400 rounded-lg text-center">
+          <h2>Seu IMC é de {imc.toFixed(2)}</h2>
+          <p>Categoria: {IndiceCorpo}</p>
+         </div>
           <table className="min-w-full mt-2">
             <thead>
               <tr>
@@ -108,7 +112,7 @@ function App() {
             </thead>
             <tbody>
               {dadosIMC.map(({ id, categoria, imc }) =>
-                isborder === categoria ? (
+                IndiceCorpo === categoria ? (
                   <tr key={id} className="border bg-zinc-400">
                     <td className="border px-4 py-2">{categoria}</td>
                     <td className="border px-4 py-2">{imc}</td>
